@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>أكاديمية SAP للمخازن</title>
+<meta name="description" content="SAP Warehouse Academy: transactions, movement types, errors and stock lifecycle in Arabic, English and French.">
+<meta property="og:title" content="SAP Warehouse Academy"><meta property="og:type" content="website">
+<link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg"><meta name="theme-color" content="#0070F2">
+<style>
+:root{--bg:#f5f6f7;--card:#fff;--tx:#1d2d3e;--mu:#5b738b;--bd:#d9d9d9;--br:#0070f2;--ac:#e9730c;--sh:#0a1f3d;--ok:#107e3e}
+:root[data-t=dark]{--bg:#12181f;--card:#1d252e;--tx:#eaecee;--mu:#9aa9b8;--bd:#33414f;--br:#4aa3ff;--sh:#0b1218}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.6 "Segoe UI",Tahoma,Arial,sans-serif;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+header{background:var(--sh);color:#fff;display:flex;align-items:center;gap:8px;padding:8px 12px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+header h1{font-size:16px;margin:0;flex:1}header button,header select{background:#ffffff1f;color:#fff;border:0;border-radius:8px;padding:6px 10px;font:inherit}
+header option{color:#000}
+nav{display:flex;gap:4px;padding:8px 12px;overflow-x:auto;background:var(--card);border-bottom:1px solid var(--bd)}
+nav button{border:0;background:none;color:var(--mu);padding:8px 14px;font:inherit;border-bottom:3px solid transparent;white-space:nowrap}
+nav button.on{color:var(--br);border-color:var(--br);font-weight:700}
+main{max-width:1200px;margin:auto;padding:12px}
+input,textarea{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);font:inherit}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:8px;padding:5px 10px;font:inherit;cursor:pointer}
+.chip b{color:var(--br);direction:ltr;unicode-bidi:isolate}.chip.on{background:var(--br);color:#fff}.chip.on b{color:#fff}
+.split{display:grid;gap:12px}@media(min-width:900px){.split{grid-template-columns:1fr 1.25fr}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px}
+h2{font-size:17px;margin:0 0 8px}h3{font-size:15px;margin:0 0 6px}
+ol.steps{list-style:none;padding:0;margin:0}
+ol.steps li{display:flex;gap:10px;padding:8px;border-radius:8px;cursor:pointer;align-items:flex-start}
+ol.steps li.on{background:#e9730c22}
+ol.steps i{flex:none;width:26px;height:26px;border-radius:50%;background:var(--br);color:#fff;display:grid;place-items:center;font-style:normal;font-weight:700;font-size:13px}
+ol.steps li.on i{background:var(--ac)}
+.scr{width:100%;height:auto;direction:ltr;background:#fff;border-radius:8px;border:1px solid var(--bd)}
+.scr .st{cursor:pointer}.scr .st circle{fill:var(--br)}.scr .st line{stroke:var(--br);stroke-width:2;marker-end:url(#a1)}
+.scr .st.on circle{fill:var(--ac)}.scr .st.on line{stroke:var(--ac);stroke-width:3;marker-end:url(#a2)}
+.scr .st rect.f{fill:#fff;stroke:#89a;stroke-width:1}.scr .st.on rect.f{stroke:var(--ac);stroke-width:3;fill:#fff4e8}
+.scr text{font:12px Arial,sans-serif}
+table{border-collapse:collapse;width:100%}td,th{padding:6px;border-bottom:1px solid var(--bd);text-align:start;vertical-align:top}
+.mv{direction:ltr;font-weight:700;color:var(--br)}
+.er{border-inline-start:4px solid #bb0000;padding:4px 10px;margin:6px 0;background:#bb000010;border-radius:4px}
+.er b{direction:ltr;unicode-bidi:isolate}
+.btn{background:var(--br);color:#fff;border:0;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer}.btn.s{background:var(--card);color:var(--tx);border:1px solid var(--bd)}
+.flow{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.stg{flex:none;width:150px;border:2px solid var(--bd);background:var(--card);color:var(--tx);border-radius:12px;padding:8px;font:inherit;text-align:start;cursor:pointer}
+.stg.on{border-color:var(--ac)}.stg i{font-style:normal;background:var(--br);color:#fff;border-radius:50%;width:24px;height:24px;display:inline-grid;place-items:center;margin-bottom:4px}
+.tag{display:inline-block;border-radius:6px;padding:2px 8px;font-size:12px;color:#fff;margin:2px}
+.cv{position:relative;border:1px dashed var(--bd);border-radius:8px;overflow:hidden;direction:ltr}.cv img{width:100%;display:block}.cv svg{position:absolute;inset:0;width:100%;height:100%;cursor:crosshair}
+.row{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.mi{display:flex;gap:6px;margin:4px 0;align-items:center}.mi i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font-style:normal}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:6px}
+.tc{display:flex;flex-direction:column;gap:2px;text-align:start;background:var(--card);border:1px solid var(--bd);border-inline-start:5px solid var(--mc);border-radius:10px;padding:8px 10px;color:var(--tx);font:inherit;cursor:pointer;min-height:76px}
+.tc b{direction:ltr;unicode-bidi:isolate;font-size:17px;color:var(--mc);text-align:start}.tc span{font-size:13px;line-height:1.35}.tc small{color:var(--mu);font-size:11px;margin-top:auto}
+.tc.on{background:var(--mc);border-color:var(--mc)}.tc.on b,.tc.on span,.tc.on small{color:#fff}
+.ex{grid-column:1/-1;border:2px solid var(--mc);border-radius:12px;padding:10px;background:var(--bg)}
+button:focus-visible,select:focus-visible,input:focus-visible,li:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+footer{max-width:1200px;margin:8px auto 24px;padding:0 12px;color:var(--mu);font-size:12px}
+.cp{margin-inline-start:8px;font-size:12px;padding:2px 8px}.dsc{margin:8px 0 0;color:var(--mu)}
+</style></head><body>
+<header><h1 id="ttl"></h1>
+<select id="lg" aria-label="Language"><option value="ar">العربية</option><option value="en">English</option><option value="fr">Français</option></select>
+<button id="th" aria-label="theme">◐</button></header>
+<nav id="nav"></nav><main id="app"></main><footer id="ft"></footer>
+
+<script>
+const UI={
+ar:{ttl:"أكاديمية SAP للمخازن",tabs:["المعاملات","رحلة المخزون","استوديو الترقيم"],ph:"ابحث برمز المعاملة أو اسمها…",steps:"الخطوات",mv:"أنواع الحركات",er:"أشهر الأخطاء وحلولها",ex:"نفّذ (F8)",fix:"الحل",none:"لا نتائج",pick:"اختر معاملة من القائمة.",st:"حالة المخزون",ac:"الأثر المحاسبي",flow:"المسار",num:"رقم",arr:"سهم",up:"رفع صورة",clr:"مسح",exp:"تصدير JSON",cp:"نسخ",code:"الرمز",nm:"العنوان",hint:"ارفع صورة SAP ثم انقر لوضع رقم. في وضع السهم انقر نقطتين (البداية ثم النهاية).",note:"اكتب الشرح"},
+en:{ttl:"SAP Warehouse Academy",tabs:["Transactions","Stock lifecycle","Annotator studio"],ph:"Search by T-code or name…",steps:"Steps",mv:"Movement types",er:"Common errors & fixes",ex:"Execute (F8)",fix:"Fix",none:"No results",pick:"Pick a transaction.",st:"Stock status",ac:"Accounting impact",flow:"Flow",num:"Number",arr:"Arrow",up:"Upload image",clr:"Clear",exp:"Export JSON",cp:"Copy",code:"Code",nm:"Title",hint:"Upload an SAP screenshot, then click to drop a number. In arrow mode click twice (start, end).",note:"Write the explanation"},
+fr:{ttl:"Académie SAP Entrepôt",tabs:["Transactions","Cycle du stock","Studio d'annotation"],ph:"Rechercher par T-code ou nom…",steps:"Étapes",mv:"Types de mouvement",er:"Erreurs courantes et solutions",ex:"Exécuter (F8)",fix:"Solution",none:"Aucun résultat",pick:"Choisissez une transaction.",st:"Statut du stock",ac:"Impact comptable",flow:"Flux",num:"Numéro",arr:"Flèche",up:"Importer une image",clr:"Effacer",exp:"Exporter JSON",cp:"Copier",code:"Code",nm:"Titre",hint:"Importez une capture SAP puis cliquez pour placer un numéro. En mode flèche, cliquez deux fois.",note:"Écrivez l'explication"}};
+const MV={101:["GR for PO","استلام بضاعة من أمر شراء"],102:["Reverse GR 101","عكس استلام 101"],103:["GR to GR blocked stock","استلام إلى مخزون مجمّد"],105:["Release from GR blocked","إفراج من المجمّد"],122:["Return to vendor","مرتجع للمورد"],161:["Return delivery PO","مرتجع على أمر شراء"],201:["GI to cost center","صرف إلى مركز تكلفة"],261:["GI to production order","صرف خامات لأمر إنتاج"],262:["Reverse 261","عكس صرف 261"],301:["Plant to plant 1-step","نقل بين مصنعين خطوة"],309:["Material to material","من مادة إلى مادة"],311:["SLoc to SLoc","نقل بين مواقع تخزين"],321:["QI to unrestricted","من الجودة إلى الحر"],322:["Unrestricted to QI","من الحر إلى الجودة"],343:["Blocked to unrestricted","من المجمّد إلى الحر"],344:["Unrestricted to blocked","من الحر إلى المجمّد"],351:["GI stock transport order","صرف أمر نقل STO"],501:["Receipt w/o PO","استلام بدون أمر شراء"],601:["GI delivery","ترحيل صرف تسليم"],602:["Reverse 601","عكس 601"],641:["Transfer to in-transit","نقل إلى مخزون في الطريق"],651:["Return delivery GR","استلام مرتجع عميل"],701:["Inventory gain","فائض جرد"],702:["Inventory loss","عجز جرد"]};
+const E={IM:[["M7 021","الكمية غير كافية في المخزون الحر","افحص MMBE ثم عدّل الكمية أو انقل من الحجب/الجودة."],["M7 001","فترة الترحيل مغلقة","افتح الفترة عبر MMPV أو غيّر تاريخ الترحيل."],["M7 053","المادة غير موسّعة لهذا المصنع/الموقع","وسّع عرض التخزين من MM02."]],
+SHP:[["VL 109","المخزون غير كافٍ للتسليم","افحص MMBE وقلّل كمية الاختيار أو انتظر استلام."],["VL 026","بيانات التسليم غير مكتملة","أكمل الحقول من تقرير Incompletion في VL02N."],["L3 100","أمر النقل TO غير مؤكد","أكّد الـTO قبل ترحيل الصرف (LT12)."]],
+WM:[["L3 / L2","لا يوجد موقع تخزين مناسب","راجع LS24 وLX02 وقواعد الإيداع."],["L3 100","كمية TO غير مطابقة","راجع LT22 وصحّح التأكيد."],["LI 003","جرد قائم يمنع الحركة","أنهِ الجرد عبر LI02N/LI03N."]],
+TEC:[["No authorization","نقص صلاحية","شغّل SU53 فوراً وأرسل النتيجة لمسؤول الصلاحيات."],["Table not found","اسم جدول خاطئ","تحقق من الاسم في SE11."]]};
+const D=[
+["MIGO","حركات المخزون","Goods Movement","IM",[["Action","A01 Goods Receipt"],["Reference","R01 Purchase Order"],["PO Number","4500001234"],["Movement Type","101"]],[101,102,122,261,311,601,321]],
+["MMBE","نظرة عامة على المخزون","Stock Overview","IM",[["Material","RM-1001"],["Plant","1000"],["Storage Location","0001"]]],
+["MB51","مستندات المواد","Material Documents","IM",[["Material","RM-1001"],["Plant","1000"],["Movement Type","101"],["Posting Date","01.11.2026 - 17.11.2026"]],[101,261,601]],
+["MB52","مخزون المواد بالمستودع","Warehouse Stocks","IM",[["Material","RM-1001"],["Plant","1000"],["Storage Location","0001"]]],
+["MB5B","المخزون بتاريخ معيّن","Stock on Posting Date","IM",[["Material","RM-1001"],["Plant","1000"],["Posting Date","31.10.2026"]]],
+["MB5T","المخزون في الطريق","Stock in Transit","IM",[["Material","FG-2001"],["Plant","1000"],["Supplying Plant","2000"]],[351,641]],
+["MM03","عرض بيانات المادة","Display Material","IM",[["Material","FG-2001"],["Views","Basic Data 1, Plant Data/Storage"]]],
+["MM02","تعديل بيانات المادة","Change Material","IM",[["Material","FG-2001"],["Industry Sector","M"],["Views","Storage 1"]]],
+["MD04","قائمة المخزون والمتطلبات","Stock/Requirements List","IM",[["Material","RM-1001"],["Plant","1000"]]],
+["ME21N","إنشاء أمر شراء","Create Purchase Order","IM",[["Vendor","100001"],["Purch. Org","1000"],["Material","RM-1001"],["PO Quantity","500"]]],
+["CO15","تأكيد أمر إنتاج","Production Order Confirmation","IM",[["Order","1000123"],["Yield to Confirm","100"],["Posting Date","17.11.2026"]],[261,101]],
+["MI01","إنشاء مستند جرد","Create Physical Inventory Doc","IM",[["Plant","1000"],["Storage Location","0001"],["Planned Count Date","20.11.2026"]],[701,702]],
+["QA32","قائمة دفعات الفحص","Inspection Lot List","IM",[["Plant","1000"],["Material","RM-1001"],["Inspection Lot Origin","01"]],[321,322,343,344]],
+["MF60","تجهيز خامات الإنتاج","Pick List / Staging","IM",[["Plant","1000"],["Production Supply Area","PSA1"]],[261]],
+["HU02","تعديل وحدة تداول (تعبئة)","Change Handling Unit","IM",[["Handling Unit","00000000100000123"],["Packing Material","PAL-EUR"]]],
+["VA01","إنشاء أمر بيع","Create Sales Order","SHP",[["Order Type","OR"],["Sales Org","1000"],["Sold-To","200001"],["Material","FG-2001"]]],
+["VL01N","إنشاء تسليم صادر","Create Outbound Delivery","SHP",[["Shipping Point","1000"],["Selection Date","17.11.2026"],["Order","5000001234"]]],
+["VL02N","تعديل تسليم / ترحيل صرف","Change Delivery / Post GI","SHP",[["Outbound Delivery","80001234"],["Picked Qty","Check picking tab"]],[601,602]],
+["VL03N","عرض تسليم صادر","Display Outbound Delivery","SHP",[["Outbound Delivery","80001234"]]],
+["VL06P","تسليمات للاختيار","Deliveries for Picking","SHP",[["Shipping Point","1000"],["Selection Date","17.11.2026"],["Planned GI Date","20.11.2026"]]],
+["VL06C","تأكيد الاختيار","Deliveries for Confirmation","SHP",[["Shipping Point","1000"],["Delivery Date","17.11.2026"]]],
+["VL06O","مراقب التسليمات الصادرة","Outbound Delivery Monitor","SHP",[["Shipping Point","1000"],["Planned GI Date","20.11.2026"]],[601]],
+["VT01N","إنشاء شحنة","Create Shipment","SHP",[["Shipment Type","0001"],["Transportation Planning Pt","1000"],["Delivery","80001234"]]],
+["LS24","مخزون المادة في WM","Stock per Material (Quants)","WM",[["Material","RM-1001"],["Plant","1000"],["Storage Location","0001"]]],
+["LS22","عرض موقع تخزين","Display Storage Bin","WM",[["Warehouse No.","100"],["Storage Type","001"],["Storage Bin","01-01-01"]]],
+["LS26","مخزون لكل مادة","Stock per Material","WM",[["Material","RM-1001"],["Plant","1000"],["Warehouse No.","100"]]],
+["LT24","أوامر النقل لمادة","TOs per Material","WM",[["Warehouse No.","100"],["Material","RM-1001"]]],
+["LT22","عرض أوامر النقل","Display TOs","WM",[["Warehouse No.","100"],["Storage Type","001"],["Creation Date","17.11.2026"]]],
+["LT01","إنشاء أمر نقل","Create Transfer Order","WM",[["Warehouse No.","100"],["Movement Type","999"],["Material","RM-1001"],["Source Storage Type","001"]]],
+["LX02","المخزون حسب الموقع","Stock per Storage Bin","WM",[["Warehouse No.","100"],["Storage Type","001"],["Material","RM-1001"]]],
+["LX03","حالة المواقع","Bin Status Report","WM",[["Warehouse No.","100"],["Storage Type","001"]]],
+["LI01N","إنشاء مستند جرد WM","Create WM Inventory Record","WM",[["Warehouse No.","100"],["Storage Type","001"],["Storage Bin","01-01-01"]],[701,702]],
+["LI02N","إدخال نتيجة العد","Enter Count","WM",[["Warehouse No.","100"],["Inventory Record","1"],["Counted Qty","50"]]],
+["LI03N","ترحيل فروقات الجرد","Clear Differences","WM",[["Warehouse No.","100"],["Inventory Record","1"]],[701,702]],
+["LX15","تقرير حالة الجرد","Inventory Status","WM",[["Warehouse No.","100"],["Storage Type","001"]]],
+["LX16","سجل الجرد","Inventory History","WM",[["Warehouse No.","100"],["Storage Type","001"]]],
+["LI20","متابعة مستندات الجرد","Inventory Follow-up","WM",[["Warehouse No.","100"],["Inventory Record","1"]]],
+["SE16N","عرض جداول البيانات","Table Browser","TEC",[["Table","MARD"],["Max. No. of Hits","500"]]],
+["SU53","فحص فشل الصلاحية","Authorization Check","TEC",[["Run right after the error","Display authorization data"]]],
+["SE93","معلومات رمز المعاملة","Maintain Transaction","TEC",[["Transaction Code","MIGO"]]],
+["SM37","مراقبة الخلفية Jobs","Job Overview","TEC",[["Job Name","*"],["User Name","BATCHUSER"],["From Date","17.11.2026"]]],
+["SLG1","سجل التطبيقات","Application Log","TEC",[["Object","MM"],["Subobject","*"],["Date","17.11.2026"]]],
+["MB03","عرض مستند مادة","Display Material Document","IM",[["Material Document", "4900001234"], ["Material Doc. Year", "2026"]],[101, 261, 601]],
+["MB5L","قائمة قيم المخزون","List of Stock Values","IM",[["Company Code", "1000"], ["Plant", "1000"], ["Posting Date", "31.10.2026"]]],
+["ME23N","عرض أمر شراء","Display Purchase Order","IM",[["Purchase Order", "4500001234"]],[101]],
+["ME2M","أوامر الشراء حسب المادة","Purchase Orders by Material","IM",[["Material", "RM-1001"], ["Plant", "1000"], ["Scope of List", "ALV"]]],
+["ME51N","إنشاء طلب شراء","Create Purchase Requisition","IM",[["Material", "RM-1001"], ["Quantity", "500"], ["Plant", "1000"], ["Delivery Date", "30.11.2026"]]],
+["MM01","إنشاء مادة","Create Material","IM",[["Industry Sector", "M"], ["Material Type", "ROH"], ["Views", "Basic Data 1, Plant, Storage 1"]]],
+["MMPV","إغلاق فترة المواد","Close Period for Materials","IM",[["Company Code", "1000"], ["Fiscal Year", "2026"], ["Posting Period", "11"]]],
+["CO01","إنشاء أمر إنتاج","Create Production Order","IM",[["Material", "FG-2001"], ["Production Plant", "1000"], ["Order Type", "PP01"], ["Total Quantity", "100"]],[261]],
+["CO03","عرض أمر إنتاج","Display Production Order","IM",[["Order", "1000123"]],[261, 101]],
+["COOIS","معلومات أوامر الإنتاج","Order Information System","IM",[["Plant", "1000"], ["Order", "1000123"], ["Layout", "ALV"]]],
+["MI04","إدخال نتيجة العد","Enter Inventory Count","IM",[["Physical Inventory Document", "100000123"], ["Fiscal Year", "2026"], ["Counted Qty", "50"]]],
+["MI07","ترحيل فروقات الجرد","Post Inventory Differences","IM",[["Physical Inventory Document", "100000123"], ["Fiscal Year", "2026"], ["Posting Date", "17.11.2026"]],[701, 702]],
+["VA03","عرض أمر بيع","Display Sales Order","SHP",[["Sales Order", "5000001234"]]],
+["VL09","عكس ترحيل صرف تسليم","Cancel Goods Issue for Delivery","SHP",[["Outbound Delivery", "80001234"]],[602]],
+["VF01","إنشاء مستند فوترة","Create Billing Document","SHP",[["Billing Date", "17.11.2026"], ["Document", "80001234"]]],
+["VT02N","تعديل شحنة","Change Shipment","SHP",[["Shipment Number", "0000001234"], ["Overview", "Deliveries / Status"]]],
+["LT12","تأكيد أمر نقل","Confirm Transfer Order","WM",[["Warehouse No.", "100"], ["Transfer Order", "1234"], ["Confirmation", "Complete"]]],
+["LT03","أمر نقل من طلب نقل","Create TO from Transfer Requirement","WM",[["Warehouse No.", "100"], ["Transfer Requirement", "1234"]]],
+["LT10","أمر نقل من قائمة المخزون","Create TO from Stock List","WM",[["Warehouse No.", "100"], ["Storage Type", "001"], ["Material", "RM-1001"]]],
+["LS01N","إنشاء موقع تخزين","Create Storage Bin","WM",[["Warehouse No.", "100"], ["Storage Type", "001"], ["Storage Bin", "01-01-02"], ["Storage Section", "001"]]],
+["LS02N","تعديل موقع تخزين","Change Storage Bin","WM",[["Warehouse No.", "100"], ["Storage Type", "001"], ["Storage Bin", "01-01-02"]]],
+["SE11","قاموس البيانات","ABAP Dictionary","TEC",[["Database table", "MARD"], ["Action", "Display"]]],
+["ST22","تحليل أعطال ABAP","ABAP Runtime Error Analysis","TEC",[["Date", "17.11.2026"], ["User Name", "*"]]],
+["SU01","صيانة المستخدمين","User Maintenance","TEC",[["User", "USER01"], ["Tabs", "Roles, Profiles"]]],
+["VL31N","إنشاء تسليم وارد","Create Inbound Delivery","SHP",[["Vendor", "100001"], ["Purchase Order", "4500001234"], ["Delivery Date", "17.11.2026"]]],
+["VL32N","تعديل تسليم وارد / ترحيل استلام","Change Inbound Delivery / Post GR","SHP",[["Inbound Delivery", "180000123"], ["Putaway / Received Qty", "Check items"]],[101, 102]],
+["VL33N","عرض تسليم وارد","Display Inbound Delivery","SHP",[["Inbound Delivery", "180000123"]]],
+["VL06I","مراقب التسليمات الواردة","Inbound Delivery Monitor","SHP",[["Shipping/Receiving Point", "1000"], ["Planned GR Date", "20.11.2026"]],[101]],
+["VL06G","تسليمات صادرة لترحيل الصرف","Outbound Deliveries for Goods Issue","SHP",[["Shipping Point", "1000"], ["Planned GI Date", "20.11.2026"]],[601]],
+["VL04","إنشاء تسليمات جماعية","Collective Processing of Deliveries","SHP",[["Shipping Point", "1000"], ["Selection Date", "17.11.2026"], ["Sales Orders", "Due list"]]],
+["VL10A","أوامر بيع مستحقة للتسليم","Sales Orders Due for Delivery","SHP",[["Shipping Point", "1000"], ["Delivery Creation Date", "20.11.2026"], ["Sold-To", "200001"]]],
+["VL01NO","إنشاء تسليم صادر بدون مرجع","Create Outbound Delivery w/o Reference","SHP",[["Shipping Point", "1000"], ["Ship-To", "200001"], ["Material", "FG-2001"], ["Delivery Qty", "50"]],[601]],
+["LT04","أمر نقل من تسليم وارد","Create TO for Inbound Delivery","WM",[["Warehouse No.", "100"], ["Inbound Delivery", "180000123"], ["Destination Storage Type", "001"]]],
+["LT06","أمر نقل من مستند مادة","Create TO from Material Document","WM",[["Warehouse No.", "100"], ["Material Document", "4900001234"], ["Material Doc. Year", "2026"]],[101]],
+["ME22N","تعديل أمر شراء","Change Purchase Order","IM",[["Purchase Order", "4500001234"], ["Item", "10"], ["Delivery Date", "30.11.2026"]]],
+["MB5S","أرصدة GR/IR","List of GR/IR Balances","IM",[["Company Code", "1000"], ["Vendor", "100001"], ["Material", "RM-1001"]],[101]]
+];
+const T=D.map(([c,a,e,m,f,v])=>({c,a,e,m,f,v:v||[]}));
+const INFO={};`MIGO|ترحيل كل حركات المخزون (استلام، صرف، نقل) من شاشة واحدة|عند استلام بضاعة من أمر شراء أو صرف خامات لأمر إنتاج أو نقل بين المواقع|MKPF, MSEG, MARD, EKBE
+MMBE|عرض المخزون الحالي حسب المصنع والموقع والدفعة وبكل حالاته|للتحقق من الكمية الحرة والجودة والمجمّد قبل أي حركة|MARD, MCHB, MSKA
+MB51|قائمة مستندات المواد وكل الحركات|لتتبع من رحّل الحركة ومتى ولماذا|MKPF, MSEG
+MB52|مخزون المواد حسب المستودع مع القيمة|لتقرير سريع بالكمية والقيمة|MARD, MBEW
+MB5B|المخزون والقيمة في تاريخ سابق|لإقفال الفترات ومطابقة الجرد بتاريخ محدد|MSEG, MARDH
+MB5T|المخزون في الطريق بين المصانع|لمتابعة شحنات STO قبل الاستلام|EKBE, MARC
+MM03|عرض بيانات المادة دون تعديل|لمعرفة الوحدات والتخزين والتقييم|MARA, MARC, MARD
+MM02|تعديل بيانات المادة|لتصحيح الوحدة أو التخزين أو إعدادات MRP (بصلاحية)|MARA, MARC
+MD04|قائمة المخزون والمتطلبات الحالية|لمعرفة العرض والطلب المتوقع للمادة|MDKP, MDTB
+ME21N|إنشاء أمر شراء|لبدء دورة الشراء قبل استلام الخامات|EKKO, EKPO
+CO15|تأكيد الإنتاج وترحيل الكميات|لإثبات الإنتاج وصرف الخامات تلقائياً (backflush)|AFRU, AUFK
+MI01|إنشاء مستند جرد في IM|لبدء جرد فعلي في مصنع أو موقع|IKPF, ISEG
+QA32|قائمة دفعات الفحص وقرار الاستخدام|لإفراج المخزون من الجودة أو حجبه|QALS, QAVE
+MF60|تجهيز الخامات لخط الإنتاج|لتحديد ما يُنقل إلى منطقة التغذية|PVBE, RESB
+HU02|تعديل وحدة التداول (باليت/صندوق)|لإضافة أو إزالة بنود في الباليت|VEKP, VEPO
+VA01|إنشاء أمر بيع|بداية دورة التصدير والتسليم|VBAK, VBAP
+VL01N|إنشاء تسليم صادر من أمر بيع|بعد تأكيد المخزون وجدولة الشحن|LIKP, LIPS
+VL02N|تعديل التسليم وترحيل الصرف 601|لإقفال التسليم وخصم المخزون|LIKP, LIPS, MSEG
+VL03N|عرض التسليم|لمراجعة الحالة والمستندات التالية|LIKP, LIPS, VBFA
+VL06P|التسليمات الجاهزة للاختيار|لإنشاء أوامر الاختيار جماعياً|LIKP, LIPS
+VL06C|التسليمات بانتظار تأكيد الاختيار|لتأكيد الاختيار دفعة واحدة|LIKP, LTAK
+VL06O|مراقب التسليمات الصادرة|لمتابعة الحالة عبر مراحل الصرف|LIKP, VBUK
+VT01N|إنشاء شحنة وتجميع تسليمات|لتخطيط النقل وربط الناقل|VTTK, VTTP
+LS24|كواندات مخزون WM|لمعرفة موقع كل كمية وحالتها|LQUA
+LS22|عرض موقع تخزين|لمراجعة محتوى رف واحد|LAGP, LQUA
+LS26|المخزون لكل مادة في WM|لمقارنة مخزون WM مع IM|LQUA, MARD
+LT24|أوامر النقل الخاصة بمادة|لتتبع حركات المادة داخل المستودع|LTAK, LTAP
+LT22|عرض أوامر النقل بمعايير|لمتابعة أوامر النقل المفتوحة|LTAK, LTAP
+LT01|إنشاء أمر نقل يدوي|لنقل مخزون بين مواقع WM|LTAK, LTAP
+LX02|مخزون المواقع|لمعرفة المخزون لكل موقع تخزين|LQUA
+LX03|حالة المواقع|لإيجاد المواقع الفارغة أو الممتلئة|LAGP
+LI01N|إنشاء سجل جرد WM|لبدء جرد على مستوى الموقع|LINV
+LI02N|إدخال الكميات المعدودة|بعد العد الفعلي|LINV
+LI03N|ترحيل فروقات الجرد|لتسوية الفروقات (701/702)|LINV
+LX15|متابعة حالة الجرد|لمعرفة المنجز والمتبقي|LINV
+LX16|سجل الجرد|لمراجعة نتائج سابقة|LINV
+LI20|متابعة مستندات الجرد|لمراقبة الجرد القائم|LINV
+SE16N|استعراض محتوى الجداول|للتحقق من البيانات (قراءة فقط)|أي جدول
+SU53|عرض آخر فشل صلاحية|مباشرة بعد رسالة No authorization|—
+SE93|بيانات رمز المعاملة|لمعرفة البرنامج المرتبط بالرمز|TSTC
+SM37|مراقبة الوظائف الخلفية|للتأكد من اكتمال Jobs أو فشلها|TBTCO
+SLG1|سجل التطبيقات|لقراءة سبب خطأ في عملية|BAL_*
+MB03|عرض مستند المادة الناتج عن أي حركة مخزون|لمراجعة تفاصيل حركة محددة بعد ترحيلها|MKPF, MSEG
+MB5L|قائمة بقيم المخزون حسب المادة وحساب الأستاذ|لمطابقة المخزون مع المحاسبة عند الإقفال|MBEW, MBEWH
+ME23N|عرض أمر الشراء وبنوده وسجل الاستلامات والفواتير|قبل الاستلام للتأكد من الكمية والمصنع وموقع التخزين|EKKO, EKPO, EKBE
+ME2M|قائمة أوامر الشراء لمادة معيّنة|لمعرفة الكميات المنتظر استلامها لمادة|EKKO, EKPO
+ME51N|إنشاء طلب شراء يدوياً لتغطية حاجة من المخزون|عند الحاجة لمادة قبل تحويلها إلى أمر شراء|EBAN
+MM01|إنشاء مادة جديدة بعروضها (أساسي، مصنع، تخزين)|عند إدخال مادة جديدة للنظام (بصلاحية)|MARA, MARC, MARD
+MMPV|فتح الفترة المحاسبية التالية لحركات المواد|عند ظهور خطأ فترة الترحيل مغلقة (M7 001) أو نهاية الشهر|MARV
+CO01|إنشاء أمر إنتاج لمنتج تام مع قائمة خاماته|لبدء دورة الإنتاج قبل تجهيز الخامات وصرفها|AUFK, AFKO, AFPO, RESB
+CO03|عرض بيانات أمر الإنتاج وحالته ومكوناته|لمراجعة الخامات المطلوبة والكميات المؤكدة|AUFK, AFKO, AFPO
+COOIS|قائمة بأوامر الإنتاج مع الحالة والكميات|لمتابعة الأوامر المفتوحة والمتأخرة|AUFK, AFKO, AFPO
+MI04|إدخال الكمية المعدودة لمستند جرد|بعد العد الفعلي وقبل ترحيل الفروقات|IKPF, ISEG
+MI07|ترحيل فروقات الجرد إلى المخزون والمحاسبة|بعد المراجعة وإعادة العد إن لزم|IKPF, ISEG, MSEG
+VA03|عرض أمر البيع وبنوده وتسلسل المستندات|لمعرفة حالة الطلب والتسليم والفوترة|VBAK, VBAP, VBFA
+VL09|عكس ترحيل الصرف (601) لتسليم تم ترحيله|عند خطأ في الكمية أو العميل بعد ترحيل الصرف|LIKP, LIPS, MSEG
+VF01|إنشاء فاتورة من تسليم أو أمر بيع|بعد ترحيل الصرف 601 وإتمام التسليم|VBRK, VBRP
+VT02N|تعديل بيانات الشحنة والناقل وحالاتها|لإضافة تسليمات أو تحديث بدء الشحن والنقل|VTTK, VTTP
+LT12|تأكيد تنفيذ أمر النقل بعد نقل الكمية فعلياً|عند ظهور خطأ أمر النقل غير مؤكد قبل ترحيل الصرف|LTAK, LTAP
+LT03|إنشاء أمر نقل من طلب نقل (TR) قائم|عند تجهيز استلام أو صرف من المخزن|LTBK, LTAK, LTAP
+LT10|عرض المخزون في المستودع وإنشاء أمر نقل منه مباشرة|لإعادة ترتيب المخزون بين المواقع|LQUA, LTAK, LTAP
+LS01N|إنشاء موقع (رف/خانة) جديد داخل نوع تخزين|عند توسيع المستودع أو إضافة رفوف|LAGP
+LS02N|تعديل بيانات موقع التخزين (حجب، سعة، قسم)|لحجب رف أو تعديل سعته|LAGP
+SE11|عرض بنية الجداول والحقول في قاموس البيانات|للتحقق من اسم الجدول قبل استعراضه في SE16N|DD02L, DD03L
+ST22|عرض أعطال البرامج (Dumps) وسبب كل عطل|عند ظهور شاشة عطل بدل رسالة خطأ عادية|SNAP
+SU01|عرض المستخدم وأدواره وصلاحياته|لمراجعة الأدوار بعد خطأ الصلاحية (مع SU53)|USR02
+VL31N|إنشاء تسليم وارد (إشعار شحن) من أمر شراء قبل وصول البضاعة|في الاستيراد والمشتريات عندما يرسل المورد إشعار الشحن|LIKP, LIPS, EKES
+VL32N|تعديل التسليم الوارد وترحيل استلام البضاعة (101) منه|عند وصول الشحنة فعلياً وتأكيد الكمية المستلمة|LIKP, LIPS, MSEG
+VL33N|عرض التسليم الوارد وحالته والمستندات التالية|لمراجعة حالة الاستلام والإيداع|LIKP, LIPS, VBFA
+VL06I|قائمة التسليمات الواردة مع حالة الاستلام والإيداع|لمتابعة الشحنات المنتظرة والمتأخرة|LIKP, LIPS
+VL06G|قائمة التسليمات الجاهزة لترحيل الصرف الجماعي|لترحيل صرف عدة تسليمات صادرة دفعة واحدة|LIKP, LIPS
+VL04|إنشاء تسليمات صادرة لعدة أوامر بيع مستحقة دفعة واحدة|في التصدير عند وجود طلبات كثيرة جاهزة للشحن|LIKP, LIPS, VBAK
+VL10A|قائمة أوامر البيع المستحقة لإنشاء تسليم صادر|لتحديد الطلبات التي يجب شحنها اليوم|VBAK, VBAP, LIKP
+VL01NO|إنشاء تسليم صادر مباشرة دون أمر بيع|لعمليات خاصة لا يوجد لها أمر بيع (بصلاحية)|LIKP, LIPS
+LT04|إنشاء أمر نقل لإيداع بضاعة تسليم وارد في المستودع|بعد ترحيل الاستلام لنقل البضاعة من منطقة الاستلام للرف|LTAK, LTAP, LIKP
+LT06|إنشاء أمر نقل لإيداع بضاعة من مستند مادة مرحّل|بعد استلام 101 من أمر شراء مباشرة|LTAK, LTAP, MSEG
+ME22N|تعديل أمر الشراء (الكمية، تاريخ التسليم، موقع التخزين)|لتصحيح أمر الشراء قبل الاستلام|EKKO, EKPO
+MB5S|قائمة أرصدة استلام البضاعة مقابل الفواتير (GR/IR)|لمتابعة البضاعة المستلمة التي لم تُفوتر بعد|EKBE`.split("\n").forEach(l=>{const[a,b,c,d]=l.split("|");INFO[a]={p:b,w:c,t:d}});
+const LN=[["ME21N","MIGO","QA32","MMBE","MB51"],["MF60","MIGO","CO15","HU02"],["VA01","VL01N","VL06P","VL06C","VL02N","VT01N"],["LT01","LT22","LS24","LX02","LX03"],["MI01","LI01N","LI02N","LI03N","LX15"],["SU53","SE93","SE16N","SM37","SLG1"],["ME51N","ME21N","ME23N","MIGO","MB03"],["CO01","CO03","COOIS","CO15"],["VA03","VL01N","VL02N","VL09","VF01"],["LS01N","LS02N","LT10","LT03","LT12"],["MI01","MI04","MI07"],["SE11","SE16N","ST22","SU01"],["ME21N","VL31N","VL32N","LT04","LT12"],["VL10A","VL04","VL06G","VL02N","VL09"]];
+const IL={ar:["ما هي؟","متى تستخدمها؟","الجداول","موقعها في العملية"],en:["What is it?","When to use it","Tables","Position in the process"],fr:["Qu'est-ce ?","Quand l'utiliser","Tables","Position dans le processus"]};
+function illus(c){return LN.filter(l=>l.includes(c)).map(l=>`<svg class="scr" viewBox="0 0 ${l.length*100} 56" style="margin:4px 0">`+l.map((k,i)=>`${i?`<path d="M${i*100-18} 28h18m-5-4l5 4-5 4" stroke="#89a" fill="none"/>`:""}<g onclick="jump('${k}')" style="cursor:pointer"><rect x="${i*100+4}" y="10" width="76" height="36" rx="8" fill="${k==c?"#e9730c":"#0070f2"}"/><text x="${i*100+42}" y="33" fill="#fff" text-anchor="middle" font-weight="700">${k}</text></g>`).join("")+"</svg>").join("")}
+function info(t){const i=INFO[t.c];if(!i)return"";const L=IL[lang];return`<div class="card"><h3>${L[0]}</h3><p>${i.p}</p><h3>${L[1]}</h3><p>${i.w}</p><h3>${L[2]}</h3><p dir="ltr" style="text-align:start"><b>${i.t}</b></p><h3>${L[3]}</h3>${illus(t.c)}</div>`}
+const LC=[
+{n:"المشتريات واستلام الخامات",n2:"Purchasing & Goods Receipt",f:"ME21N → MIGO 101 → EWM /SCWM/PRDI",s:["QI","UN"],a:"مدين: مخزون خامات / دائن: GR/IR"},
+{n:"فحص الجودة والإفراج",n2:"Quality Inspection & Release",f:"QA32 → Usage Decision → 321",s:["QI","UN","BL"],a:"لا أثر محاسبي عند 321 (نفس التقييم)"},
+{n:"تغذية الإنتاج وصرف الخامات",n2:"Production Staging & Issue",f:"MF60 // /SCWM/PMR → MIGO 261",s:["RS","UN"],a:"مدين: WIP / دائن: مخزون خامات"},
+{n:"التأكيد والمنتج التام والتعبئة",n2:"Confirmation, FG Receipt & Packing",f:"CO15 → MIGO 101 → HU02",s:["UN"],a:"مدين: مخزون منتج تام / دائن: WIP"},
+{n:"مراقبة المستودع والجرد",n2:"Monitoring & Physical Inventory",f:"MMBE // /SCWM/MON → MI01 // /SCWM/PI",s:["UN","BL"],a:"فروق الجرد 701/702 إلى حساب فروقات المخزون"},
+{n:"التحضير والتعبئة والتصدير",n2:"Pick, Pack & Export",f:"VA01 → VL01N → /SCWM/PRDO + /SCWM/PACK → VL02N 601",s:["RS","UN"],a:"مدين: تكلفة المبيعات / دائن: مخزون منتج تام"},
+{n:"المرتجعات والنقل بين المصانع",n2:"Returns & Stock Transfers",f:"651 / 653 (مرتجع عميل) — STO 351 → 641 → استلام",s:["IT","BL","UN"],a:"في الطريق: مخزون مملوك للمصنع المستلم حتى الاستلام"}];
+const SS={UN:["#107e3e","حر الاستخدام / Unrestricted"],QI:["#0070f2","قيد الفحص / Quality Insp."],BL:["#bb0000","مجمّد / Blocked"],RS:["#e9730c","محجوز / Reserved"],IT:["#6a3fb5","في الطريق / In-Transit"]};
+const LS=(()=>{try{localStorage.setItem("_t","1");localStorage.removeItem("_t");return localStorage}catch(e){return{}}})();
+const esc=x=>String(x).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+let lang=LS.lang||"ar",tab=0,cur=null,act=1,q="",ls=0;
+const u=k=>UI[lang][k],$=s=>document.querySelector(s);
+const nm=t=>lang=="ar"?t.a:t.e;
+function stepTxt(t,i){const f=t.f[i];if(lang=="ar")return`أدخل ${f[0]}: ${f[1]}`;return(lang=="en"?"Enter ":"Saisir ")+`${f[0]}: ${f[1]}`}
+function shell(){document.documentElement.lang=lang;document.documentElement.dir=lang=="ar"?"rtl":"ltr";$("#ttl").textContent=u("ttl");$("#ft").textContent=({ar:"محتوى تعليمي مستقل وغير تابع لـ SAP SE. v1.1",en:"Independent educational content, not affiliated with SAP SE. v1.1",fr:"Contenu pédagogique indépendant, non affilié à SAP SE. v1.1"})[lang];$("#lg").value=lang;
+$("#nav").innerHTML=u("tabs").map((x,i)=>`<button class="${i==tab?"on":""}" onclick="tab=${i};shell()">${x}</button>`).join("");
+[tx,lcv,stu][tab]()}
+const MN={IM:["المخزون IM","Inventory IM","#0070f2"],SHP:["الشحن SD/LE","Shipping SD/LE","#e9730c"],WM:["المستودع WM","Warehouse WM","#107e3e"],TEC:["تقني","Technical","#6a3fb5"]};
+let mod="";
+const mn=(m,i)=>(MN[m]||MN.IM)[i];
+function tx(){$("#app").innerHTML=`<input id="q" value="${esc(q)}" placeholder="${u("ph")}" autocomplete="off"><div class="chips" id="mf"></div><div class="grid" id="gd"></div>`;
+$("#q").oninput=e=>{q=e.target.value;grid()};grid()}
+function grid(){const s=q.toLowerCase().trim(),r=T.filter(t=>(!mod||t.m==mod)&&(!s||(t.c+t.a+t.e).toLowerCase().includes(s)));
+$("#mf").innerHTML=[["",lang=="ar"?"الكل":"All","#5b738b"],...Object.keys(MN).map(k=>[k,mn(k,lang=="ar"?0:1),mn(k,2)])].map(x=>`<button class="chip ${mod==x[0]?"on":""}" style="${mod==x[0]?`background:${x[2]};border-color:${x[2]}`:""}" onclick="mod='${x[0]}';grid()">${x[1]}</button>`).join("");
+$("#gd").innerHTML=r.map(t=>`<button class="tc ${cur==t.c?"on":""}" id="c_${t.c}" style="--mc:${mn(t.m,2)}" onclick="pick('${t.c}')"><b>${t.c}</b><span>${nm(t)}</span><small>${mn(t.m,lang=="ar"?0:1)}</small></button>${cur==t.c?`<div class="ex" style="--mc:${mn(t.m,2)}">${detailHtml(t)}</div>`:""}`).join("")||`<p>${u("none")}</p>`;sync()}
+function pick(c){cur=cur==c?null:c;act=1;try{history.replaceState(null,"",cur?"#"+cur:location.pathname+location.search)}catch(e){}grid();if(cur)setTimeout(()=>document.getElementById("c_"+c)?.scrollIntoView({behavior:"smooth",block:"start"}),30)}
+function jump(c){q="";mod="";tab=0;cur=null;shell();pick(c)}
+function screenSvg(t){if(t.img)return custom(t);const n=t.f.length,H=120+n*40,X=n+1;
+let s=`<svg class="scr" viewBox="0 0 520 ${H}"><defs><marker id="a1" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#0070f2"/></marker><marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#e9730c"/></marker></defs>
+<rect width="520" height="28" fill="#0a1f3d"/><text x="10" y="18" fill="#fff" font-weight="700">SAP</text><text x="60" y="18" fill="#9fc">${t.c}</text>
+<rect y="28" width="520" height="40" fill="#eef1f4"/><text x="14" y="94" font-weight="700" fill="#1d2d3e" font-size="14">${t.e}</text>`;
+t.f.forEach((f,i)=>{const y=106+i*40;s+=`<g class="st" data-n="${i+1}"><text x="14" y="${y+17}" fill="#333">${f[0]}</text><rect class="f" x="190" y="${y}" width="230" height="26" rx="3"/><text x="198" y="${y+17}" fill="#0a1f3d">${f[1]}</text><line x1="456" y1="${y+13}" x2="426" y2="${y+13}"/><circle cx="470" cy="${y+13}" r="13"/><text x="470" y="${y+18}" fill="#fff" text-anchor="middle" font-weight="700">${i+1}</text></g>`});
+s+=`<g class="st" data-n="${X}"><rect class="f" x="14" y="38" width="120" height="22" rx="4"/><text x="24" y="53" fill="#0a1f3d">⏱ Execute F8</text><line x1="456" y1="49" x2="140" y2="49"/><circle cx="470" cy="49" r="13"/><text x="470" y="54" fill="#fff" text-anchor="middle" font-weight="700">${X}</text></g></svg>`;return s}
+function custom(t){const d=t["d_"+lang]||t.d||"";return`<div class="cv"><img src="${t.img}" alt="${esc(d)}"><svg viewBox="0 0 ${t.w} ${t.h}" class="scr" style="background:none;border:0">${(t.arrows||[]).map(a=>`<g class="st" data-n="${a.n}"><line x1="${a.x1}" y1="${a.y1}" x2="${a.x2}" y2="${a.y2}"/></g>`).join("")}${(t.markers||[]).map(m=>`<g class="st" data-n="${m.n}"><circle cx="${m.x}" cy="${m.y}" r="${t.w/45}"/><text x="${m.x}" y="${m.y+t.w/120}" fill="#fff" text-anchor="middle" style="font-size:${t.w/40}px">${m.n}</text></g>`).join("")}</svg></div>${d?`<p class="dsc">${esc(d)}</p>`:""}`}
+function detailHtml(t){const n=t.f.length,st=t.f.map((_,i)=>stepTxt(t,i)).concat(u("ex")),er=E[t.m]||E.IM;
+return`<div class="split"><div>${info(t)}<div class="card"><h2>${t.c} — ${nm(t)}<button class="btn s cp" onclick="navigator.clipboard&&navigator.clipboard.writeText('${t.c}')">${lang=="ar"?"نسخ":lang=="fr"?"Copier":"Copy"}</button></h2><h3>${u("steps")}</h3><ol class="steps">${st.map((x,i)=>`<li data-n="${i+1}" tabindex="0" role="button" class="${i+1==act?"on":""}"><i>${i+1}</i><span>${x}</span></li>`).join("")}</ol></div>
+${t.v.length?`<div class="card"><h3>${u("mv")}</h3><table>${t.v.map(c=>`<tr><td class="mv">${c}</td><td>${MV[c][lang=="ar"?1:0]}</td></tr>`).join("")}</table></div>`:""}
+<div class="card"><h3>${u("er")}</h3>${er.map(e=>`<div class="er"><b>${e[0]}</b> — ${e[1]}<br><small>${u("fix")}: ${e[2]}</small></div>`).join("")}</div></div>
+<div class="card">${screenSvg(t)}</div></div>`}
+function sync(){document.querySelectorAll("[data-n]").forEach(e=>e.classList.toggle("on",+e.dataset.n==act))}
+document.addEventListener("keydown",e=>{if((e.key=="Enter"||e.key==" ")&&e.target.matches("li[data-n]")){e.preventDefault();e.target.click()}});
+document.addEventListener("click",e=>{const g=e.target.closest("[data-n]");if(g&&tab==0){act=+g.dataset.n;sync()}});
+function lcv(){const s=LC[ls];$("#app").innerHTML=`<div class="card"><h3>${u("flow")}</h3><div class="flow">${LC.map((x,i)=>`<button class="stg ${i==ls?"on":""}" onclick="ls=${i};lcv()"><i>${i+1}</i><br>${lang=="ar"?x.n:x.n2}</button>`).join("")}</div></div>
+<div class="card"><h2>${ls+1}. ${lang=="ar"?s.n:s.n2}</h2><p dir="ltr" style="text-align:start"><b>${s.f}</b></p><h3>${u("st")}</h3><div>${s.s.map((k,i)=>`<span class="tag" style="background:${SS[k][0]}">${SS[k][1]}</span>${i<s.s.length-1?"→":""}`).join("")}</div><h3 style="margin-top:10px">${u("ac")}</h3><p>${s.a}</p></div>
+<div class="card"><div>${Object.values(SS).map(x=>`<span class="tag" style="background:${x[0]}">${x[1]}</span>`).join("")}</div></div>`}
+let S={img:null,w:1000,h:600,markers:[],arrows:[],mode:"num",p:null};
+function stu(){$("#app").innerHTML=`<div class="card"><p>${u("hint")}</p><div class="row"><input id="fc" style="flex:1;min-width:90px" placeholder="${u("code")}"><input id="fn" style="flex:2;min-width:140px" placeholder="${u("nm")}"></div>
+<div class="row"><input type="file" accept="image/*" id="fi" style="flex:1"><button class="btn ${S.mode=="num"?"":"s"}" onclick="S.mode='num';S.p=null;stu()">${u("num")}</button><button class="btn ${S.mode=="arr"?"":"s"}" onclick="S.mode='arr';stu()">${u("arr")}</button><button class="btn s" onclick="S.markers=[];S.arrows=[];stu()">${u("clr")}</button></div>
+<div class="cv" id="cv">${S.img?`<img src="${S.img}"><svg id="sv" viewBox="0 0 ${S.w} ${S.h}"></svg>`:""}</div><div id="ml"></div>
+<div class="row"><button class="btn" onclick="expo()">${u("exp")}</button><button class="btn s" onclick="navigator.clipboard.writeText($('#jo').value)">${u("cp")}</button></div><textarea id="jo" rows="7" dir="ltr" readonly></textarea></div>`;
+$("#fi").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{S={...S,img:r.result,w:i.width,h:i.height,markers:[],arrows:[]};stu()};i.src=r.result};r.readAsDataURL(f)};
+if(S.img){$("#sv").onclick=ev=>{const b=ev.currentTarget.getBoundingClientRect(),x=Math.round((ev.clientX-b.left)/b.width*S.w),y=Math.round((ev.clientY-b.top)/b.height*S.h);
+if(S.mode=="num"){S.markers.push({n:S.markers.length+1,x,y,t:""})}else if(!S.p){S.p={x,y}}else{S.arrows.push({n:S.arrows.length+1,x1:S.p.x,y1:S.p.y,x2:x,y2:y});S.p=null}draw()};draw()}}
+function draw(){const sv=$("#sv");if(!sv)return;const r=S.w/45;sv.innerHTML=`<defs><marker id="m" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6z" fill="#e9730c"/></marker></defs>`+S.arrows.map(a=>`<line x1="${a.x1}" y1="${a.y1}" x2="${a.x2}" y2="${a.y2}" stroke="#e9730c" stroke-width="${r/4}" marker-end="url(#m)"/>`).join("")+S.markers.map(m=>`<circle cx="${m.x}" cy="${m.y}" r="${r}" fill="#e9730c"/><text x="${m.x}" y="${m.y+r/3}" fill="#fff" text-anchor="middle" style="font:700 ${r*1.1}px Arial">${m.n}</text>`).join("");
+$("#ml").innerHTML=S.markers.map((m,i)=>`<div class="mi"><i>${m.n}</i><input value="${m.t}" placeholder="${u("note")}" oninput="S.markers[${i}].t=this.value"></div>`).join("")}
+function expo(){const o={c:$("#fc").value||"ZCODE",a:$("#fn").value,e:$("#fn").value,m:"IM",img:"img/"+($("#fc").value||"zcode").toLowerCase()+".png",w:S.w,h:S.h,f:S.markers.map(m=>[m.t||("Step "+m.n),""]),markers:S.markers.map(({n,x,y})=>({n,x,y})),arrows:S.arrows,v:[]};$("#jo").value=JSON.stringify({entries:[o]},null,1)}
+$("#lg").onchange=e=>{lang=LS.lang=e.target.value;shell()};
+$("#th").onclick=()=>{const d=document.documentElement.dataset.t=="dark"?"light":"dark";document.documentElement.dataset.t=d;LS.th=d};
+document.documentElement.dataset.t=LS.th||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
+fetch("custom.json").then(r=>r.json()).then(j=>(j.entries||[]).forEach(o=>T.push(o))).catch(()=>{}).finally(()=>{shell();const h=decodeURIComponent(location.hash.slice(1));if(h&&T.some(t=>t.c==h))pick(h)});
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script></body></html>
